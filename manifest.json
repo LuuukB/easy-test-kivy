@@ -1,10 +1,10 @@
 {
   "services": {
-    "TEMPLATE_NAME": {
-      "name": "TEMPLATE_NAME",
+    "easy-test-kivy": {
+      "name": "easy-test-kivy",
       "type": "app",
-      "exec_cmd": "/mnt/managed_home/farm-ng-user-YOUR_USER_HERE/YOUR-REPOSITORY-NAME/entry.sh",
-      "display_name": "APP NAME",
+      "exec_cmd": "/mnt/managed_home/farm-ng-user-luuk-b/easy-test-kivy/entry.sh",
+      "display_name": "test app",
       "autostart": false
     }
   }
