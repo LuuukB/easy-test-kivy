@@ -4,7 +4,7 @@
       "name": "easy-test-kivy",
       "type": "app",
       "exec_cmd": "/mnt/managed_home/farm-ng-user-luuk-b/easy-test-kivy/entry.sh",
-      "display_name": "test app",
+      "display_name": "tick-tack",
       "autostart": false
     }
   }
