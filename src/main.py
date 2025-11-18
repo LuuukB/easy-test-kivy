@@ -68,20 +68,20 @@ class TemplateApp(App):
             await asyncio.sleep(0.01)
 
         while True:
-            #frame = await self.cameras[0].get_frame()
-            #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            #texture =Texture.create(
-            #    size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
-            #)
-            #texture.flip_vertical()
-            #texture.blit_buffer(
-            #    bytes(frame.data),
-            #    colorfmt="rgb",
-            #    bufferfmt="ubyte",
-            #    mipmap_generation=False,
-            #)
+            frame = await self.cameras[0].get_frame()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            texture =Texture.create(
+                size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
+            )
+            texture.flip_vertical()
+            texture.blit_buffer(
+                bytes(frame.data),
+                colorfmt="rgb",
+                bufferfmt="ubyte",
+                mipmap_generation=False,
+            )
 
-            #self.root.ids.image.texture = texture
+            self.root.ids.image.texture = texture
             await asyncio.sleep(0.01)
 
 

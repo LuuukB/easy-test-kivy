@@ -30,6 +30,8 @@ class CameraHandler(ICameraHandler):
                 self.client = EventClient(cfg)
                 print("client started")
                 self.running = True
+        else:
+            print("no match")
 
     async def get_frame(self):
         if not self.client:
