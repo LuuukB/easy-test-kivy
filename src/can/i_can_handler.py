@@ -10,5 +10,8 @@ class ICanHandler(ABC):
         """Callback voor een topic"""
 
     @abstractmethod
-    async def send(self, destination: str, message):
+    async def send_twist(self, message : Twist2d):
+        """Stuur een Protobuf message naar een topic"""
+    @abstractmethod
+    async def send_to_microcontroller(self, destination, message):
         """Stuur een Protobuf message naar een topic"""

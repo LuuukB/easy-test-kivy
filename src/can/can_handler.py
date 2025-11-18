@@ -6,10 +6,15 @@ from farm_ng.core.uri_pb2 import Uri
 from farm_ng.core.proto_utils import payload_to_protobuf
 
 class CanHandler(ICanHandler):
-    def __init__(self, config):
-        self.client = EventClient(config)
-        self.callbacks = {}
-        self._listening = False
+    def __init__(self):
+        self.service_config_path = Path() / 'service_config.json'
+        self.config: EventServiceConfig = proto_from_json_file(service_config_path, EventServiceConfig())
+        for cfg in config.configs:
+            if cfg.name == "canbus":
+                self.client = EventClient(cfg)
+                print("can started")
+                self.callbacks = {}
+                self._listening = False
 
     async def start(self):
         if not self._listening:
@@ -22,8 +27,11 @@ class CanHandler(ICanHandler):
             self.callbacks[destination] = []
         self.callbacks[destination].append(callback)
 
-    async def send(self, destination, message):
-        await self.client.request_reply(destination, message)
+    async def send_twist(self, message : Twist2d):
+        await self.client.request_reply("twist", message)
+
+    async def send_to_microcontroller(self, destination, message):
+        await self.client.publish(destination, message)
 
     async def _listen(self, destination):
         req = SubscribeRequest(uri=Uri(path=destination), every_n=1)
