@@ -30,16 +30,16 @@ class CameraHandler(ICameraHandler):
                 self.client = EventClient(cfg)
                 print("client started")
                 self.running = True
-        else:
-            print("no match")
 
     async def get_frame(self):
         if not self.client:
             raise RuntimeError("Client niet gestart")
         rate = self.client.config.subscriptions[0].every_n
         async for event, payload in self.client.subscribe(
-                uri=f"{self.service_config_path}/{self.stream_name}",
-                every_n=rate,
+                SubscribeRequest(
+                    uri={"path": f"{self.service_config_path}/{self.stream_name}"},
+                    every_n=rate
+                ),
                 decode=False):
             message = payload_to_protobuf(event, payload)
             img = self.image_decoder.decode_image(message.image_data)
