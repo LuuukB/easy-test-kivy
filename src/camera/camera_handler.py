@@ -7,7 +7,7 @@ from farm_ng.core.event_service_pb2 import EventServiceConfigList
 from farm_ng.core.event_service_pb2 import SubscribeRequest
 from farm_ng.core.events_file_reader import payload_to_protobuf
 from farm_ng.core.events_file_reader import proto_from_json_file
-from i_camera_handler import ICameraHandler
+from camera.i_camera_handler import ICameraHandler
 from turbojpeg import TurboJPEG
 
 class CameraHandler(ICameraHandler):
