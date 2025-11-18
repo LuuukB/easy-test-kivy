@@ -2,6 +2,7 @@
 import argparse
 import asyncio
 import os
+import cv2
 from typing import List
 
 from amiga_package import ops
