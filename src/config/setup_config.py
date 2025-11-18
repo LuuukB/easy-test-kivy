@@ -10,7 +10,7 @@ class SetupConfig:
 
     def initialize(self):
         if self.robot_online:
-            can = self.can_bus_factory.create_online("can")
+            #can = self.can_bus_factory.create_online("can")
             self.camera_factory.add_camera_online("oak0")
             print("add camera online")
             self.camera_factory.start_all()
