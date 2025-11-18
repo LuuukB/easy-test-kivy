@@ -26,7 +26,7 @@ from kivy.app import App  # noqa: E402
 from kivy.lang.builder import Builder  # noqa: E402
 from kivy.graphics.texture import Texture
 from config.setup_config import SetupConfig
-from can.micro_can_handler import CANHandler
+from can.micro_can_handler import AsyncCanHandler
 from custom_pdo.can_message_structure import SetupPdo
 
 
@@ -63,7 +63,7 @@ class TemplateApp(App):
 
     async def template_function(self) -> None:
         setupconfig = SetupConfig()
-        canhandler = CANHandler()
+        canhandler = AsyncCanHandler()
         print("setupconfig")
         self.cameras, self.can = await setupconfig.initialize()
         print("start task")
