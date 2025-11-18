@@ -37,7 +37,7 @@ class CameraHandler(ICameraHandler):
         rate = self.client.config.subscriptions[0].every_n
         async for event, payload in self.client.subscribe(
                 SubscribeRequest(
-                    uri={"path": f"{self.service_config_path}/{self.stream_name}"},
+                    uri={"path": f"{self.client.config.name}/{self.stream_name}"},
                     every_n=rate
                 ),
                 decode=False):
