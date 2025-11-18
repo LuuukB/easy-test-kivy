@@ -1,6 +1,6 @@
 class CanBusFactory:
     @staticmethod
-    def create_online(config):
+    def create_online():
             from can.can_handler import CanHandler
             return CanHandler()
 
