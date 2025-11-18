@@ -4,7 +4,7 @@ from farm_ng.core.event_client import EventClient
 from farm_ng.core.subscription_pb2 import SubscribeRequest
 from farm_ng.core.uri_pb2 import Uri
 from farm_ng.canbus.canbus_pb2 import Twist2d
-from farm_ng.core.proto_utils import payload_to_protobuf
+from farm_ng.core.events_file_reader import proto_from_json_file
 
 class CanHandler(ICanHandler):
     def __init__(self):
