@@ -10,7 +10,7 @@ class AsyncCanHandler:
     """
     def __init__(self, channel="can0", bustype="socketcan", bitrate=250_000):
         # python-can bus setup
-        self.bus = can.interface.Bus(channel=channel, bustype=bustype, bitrate=bitrate)
+        self.bus = can.Bus(channel=channel, bustype=bustype, bitrate=bitrate)
 
         # async send queue
         self.send_queue = asyncio.Queue()
