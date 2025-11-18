@@ -1,5 +1,5 @@
 import struct
-from utils.packet import Packet
+from farm_ng.canbus.packet import Packet
 
 class SetupPdo(Packet):
     """
