@@ -3,6 +3,7 @@ from can.i_can_handler import ICanHandler
 from farm_ng.core.event_client import EventClient
 from farm_ng.core.subscription_pb2 import SubscribeRequest
 from farm_ng.core.uri_pb2 import Uri
+from farm_ng.canbus.canbus_pb2 import Twist2d
 from farm_ng.core.proto_utils import payload_to_protobuf
 
 class CanHandler(ICanHandler):
