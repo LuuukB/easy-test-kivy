@@ -33,7 +33,8 @@ class TemplateApp(App):
 
     def __init__(self) -> None:
         super().__init__()
-
+        self.can = None
+        self.cameras = {}
         self.counter: int = 0
 
         self.async_tasks: List[asyncio.Task] = []
