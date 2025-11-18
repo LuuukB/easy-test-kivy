@@ -1,6 +1,6 @@
 import asyncio
 import can
-from utils.packet import Packet  # jouw base Packet class
+from farm_ng.canbus.packet import Packet # jouw base Packet class
 
 class AsyncCanHandler:
     """

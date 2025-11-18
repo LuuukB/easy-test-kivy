@@ -27,7 +27,7 @@ from kivy.lang.builder import Builder  # noqa: E402
 from kivy.graphics.texture import Texture
 from config.setup_config import SetupConfig
 from can.micro_can_handler import CANHandler
-from custom_pdo.can_message_structure import SetupPdo, GenericPdo
+from custom_pdo.can_message_structure import SetupPdo
 
 
 class TemplateApp(App):
