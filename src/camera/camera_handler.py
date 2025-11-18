@@ -14,7 +14,7 @@ class CameraHandler(ICameraHandler):
     def __init__(self, name : str, stream_name: str = "rgb"):
 
         self.service_config_path = Path() / "service_config.json"
-        if not service_config_path.exists():
+        if not self.service_config_path.exists():
             raise FileNotFoundError("Service config not found!")
         self.config_name = name
         self.stream_name = stream_name
