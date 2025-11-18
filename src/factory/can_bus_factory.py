@@ -1,8 +1,5 @@
 class CanBusFactory:
 
-    def __init__(self):
-        pass
-
     @staticmethod
     def create_online():
             from can.can_handler import CanHandler

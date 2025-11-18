@@ -20,8 +20,6 @@ class CanHandler(ICanHandler):
                 print("can started")
                 self.callbacks = {}
                 self._listening = False
-            else:
-                print("nope")
 
     async def start(self):
         if not self._listening:
@@ -38,6 +36,7 @@ class CanHandler(ICanHandler):
         await self.client.request_reply("twist", message)
 
     async def send_to_microcontroller(self, destination, message):
+        print(f"{message} to {destination}")
         await self.client.publish(destination, message)
 
     async def _listen(self, destination):
