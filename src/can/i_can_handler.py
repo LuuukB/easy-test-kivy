@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from farm_ng.canbus.canbus_pb2 import Twist2d
 
 class ICanHandler(ABC):
     @abstractmethod
