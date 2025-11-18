@@ -12,12 +12,12 @@ from farm_ng.core.events_file_reader import proto_from_json_file
 class CanHandler(ICanHandler):
     def __init__(self):
         service_config_path = Path() / 'service_config.json'
-        print("can")
+        print("canbus")
         config = proto_from_json_file(service_config_path, EventServiceConfigList())
         for cfg in config.configs:
             if cfg.name == "canbus":
                 self.client = EventClient(cfg)
-                print("can started")
+                print("canbus started")
                 self.callbacks = {}
                 self._listening = False
 

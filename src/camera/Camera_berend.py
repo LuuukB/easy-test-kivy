@@ -13,7 +13,7 @@ class CameraHandler(ICameraHandler):
         self._oak_client: Optional[
             EventClient] = None  # This is the oak0 client that will be created in the init client method :)
         self._bg_task: Optional[
-            asyncio.Task] = None  # Keep a reference to the background task so we can cancel it later.
+            asyncio.Task] = None  # Keep a reference to the background task so we canbus cancel it later.
 
     def start_streaming(self):
         """Spawn the background task that keeps the four subscriptions alive."""

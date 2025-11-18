@@ -9,7 +9,7 @@ class AsyncCanHandler:
     Geen callbacks nodig voor alleen verzenden.
     """
     def __init__(self, channel="can0", bustype="socketcan", bitrate=250_000):
-        # python-can bus setup
+        # python-canbus bus setup
         self.bus = can.Bus(channel=channel, bustype=bustype, bitrate=bitrate)
 
         # async send queue
