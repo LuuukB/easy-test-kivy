@@ -26,6 +26,8 @@ from kivy.app import App  # noqa: E402
 from kivy.lang.builder import Builder  # noqa: E402
 from kivy.graphics.texture import Texture
 from config.setup_config import SetupConfig
+from can.micro_can_handler import CANHandler
+from custom_pdo.can_message_structure import SetupPdo, GenericPdo
 
 
 class TemplateApp(App):
@@ -61,6 +63,7 @@ class TemplateApp(App):
 
     async def template_function(self) -> None:
         setupconfig = SetupConfig()
+        canhandler = CANHandler()
         print("setupconfig")
         self.cameras, self.can = await setupconfig.initialize()
         print("start task")
@@ -68,22 +71,28 @@ class TemplateApp(App):
         while self.root is None:
             await asyncio.sleep(0.01)
 
-        while True:
-            frame = await self.cameras[0].get_frame()
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            texture =Texture.create(
-                size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
-            )
-            texture.flip_vertical()
-            texture.blit_buffer(
-                bytes(frame.data),
-                colorfmt="rgb",
-                bufferfmt="ubyte",
-                mipmap_generation=False,
-            )
+        msg = SetupPdo(command = 1, amount = 300)
 
-            self.root.ids.image.texture = texture
-            await asyncio.sleep(0.01)
+        while True:
+
+            canhandler.send_packet(msg, 0x301)
+            await asyncio.sleep(2)
+
+            #frame = await self.cameras[0].get_frame()
+            #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            #texture =Texture.create(
+            #    size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
+            #)
+            #texture.flip_vertical()
+            #texture.blit_buffer(
+            #    bytes(frame.data),
+            #    colorfmt="rgb",
+            #    bufferfmt="ubyte",
+            #    mipmap_generation=False,
+            #)
+
+            #self.root.ids.image.texture = texture
+            #await asyncio.sleep(0.01)
 
 
 if __name__ == "__main__":
