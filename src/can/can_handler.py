@@ -1,5 +1,5 @@
 import asyncio
-from i_can_handler import ICanHandler
+from can.i_can_handler import ICanHandler
 from farm_ng.core.event_client import EventClient
 from farm_ng.core.subscription_pb2 import SubscribeRequest
 from farm_ng.core.uri_pb2 import Uri
