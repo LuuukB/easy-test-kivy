@@ -4,9 +4,7 @@ import asyncio
 import os
 import cv2
 from typing import List
-
 from amiga_package import ops
-from farm_ng.canbus.canbus_pb2 import RawCanFrame
 
 # import internal libs
 
