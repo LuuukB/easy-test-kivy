@@ -59,18 +59,29 @@ class TemplateApp(App):
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
 
     async def template_function(self) -> None:
-        """Placeholder forever loop."""
+        setupconfig = SetupConfig()
+        print("setupconfig")
+        self.cameras, self.can = setupconfig.initialize()
+        print("start task")
         while self.root is None:
             await asyncio.sleep(0.01)
 
         while True:
-            await asyncio.sleep(1.0)
-
-            # increment the counter using internal libs and update the gui
-            self.counter = ops.add(self.counter, 1)
-            self.root.ids.counter_label.text = (
-                f"{'Tic' if self.counter % 2 == 0 else 'Tac'}: {self.counter}"
+            frame = await self.cameras[0].get_frame()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            texture =Texture.create(
+                size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
             )
+            texture.flip_vertical()
+            texture.blit_buffer(
+                bytes(frame.data),
+                colorfmt="rgb",
+                bufferfmt="ubyte",
+                mipmap_generation=False,
+            )
+
+            self.root.ids.image.texture = texture
+            await asyncio.sleep(0.01)
 
 
 if __name__ == "__main__":
