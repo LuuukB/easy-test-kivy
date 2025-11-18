@@ -25,6 +25,7 @@ class CameraFactory:
 
     async def start_all(self):
         """Start alle camera's async."""
+        print("start camera async.")
         await asyncio.gather(*(cam.start() for cam in self.cameras.values()))
 
     async def stop_all(self):
