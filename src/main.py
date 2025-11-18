@@ -65,13 +65,6 @@ class TemplateApp(App):
         self.cameras, self.can = await setupconfig.initialize()
         print("start task")
 
-        frame = RawCanFrame(
-            id=0x305,
-            data=b"\x01\x02\x03\x04\x05\x06\x07\x08"
-        )
-
-        await self.can.send_to_microcontroller("/can_message", frame)
-
         while self.root is None:
             await asyncio.sleep(0.01)
 
