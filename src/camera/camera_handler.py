@@ -42,7 +42,7 @@ class CameraHandler(ICameraHandler):
                 ),
                 decode=False):
             message = payload_to_protobuf(event, payload)
-            img = self.image_decoder.decode_image(message.image_data)
+            img = self.image_decoder.decode(message.image_data)
             return img
         raise RuntimeError("Stream beëindigd")
 
