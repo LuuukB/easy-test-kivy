@@ -19,6 +19,8 @@ class CanHandler(ICanHandler):
                 print("can started")
                 self.callbacks = {}
                 self._listening = False
+            else:
+                print("nope")
 
     async def start(self):
         if not self._listening:
