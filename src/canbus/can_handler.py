@@ -1,6 +1,6 @@
 import asyncio
 from pathlib import Path
-from can.i_can_handler import ICanHandler
+from canbus.i_can_handler import ICanHandler
 from farm_ng.core.event_client import EventClient
 from farm_ng.core.event_service_pb2 import SubscribeRequest
 from farm_ng.core.event_service_pb2 import EventServiceConfig
