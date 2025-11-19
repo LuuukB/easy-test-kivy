@@ -23,10 +23,13 @@ class DriveHandler(IDriveHandler):
         await self.client.request_reply("twist", twist)
 
     async def set_speed(self, linear_velocity_x, angular_velocity):
+        rate = oak_client.config.subscriptions[0].every_n
         async for event, payload in self.client.subscribe(
-            SubscribeRequest(uri=Uri(path=f"/{view_name}"), every_n=rate),
-            decode=False,
+                SubscribeRequest(uri=Uri(path="/state"), every_n=rate),
+                decode=False,
         ):
+            message = payload_to_protobuf(event, payload)
+            print(message)
             twist = Twist2d()
             twist.linear_velocity_x = self.max_speed * linear_velocity_x
             twist.angular_velocity = self.max_angular_rate * angular_velocity
