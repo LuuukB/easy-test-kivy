@@ -21,6 +21,7 @@ class DriveHandler(IDriveHandler):
 
     async def send_speed(self, twist: Twist2d):
         await self.client.request_reply("twist", twist)
+        print(f"printed {twist}")
         await asyncio.sleep(0.02)
 
     async def set_speed(self, linear_velocity_x, angular_velocity):
