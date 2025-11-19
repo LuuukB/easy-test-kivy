@@ -1,5 +1,6 @@
 from factory.camera_factory import CameraFactory
 from factory.can_bus_factory import CanBusFactory
+from factory.drive_factory import DriveFactory
 class SetupConfig:
     def __init__(self):
         self.cameras = []
@@ -7,6 +8,7 @@ class SetupConfig:
         self.check_robot_status()
         self.camera_factory = CameraFactory()
         self.can_bus_factory = CanBusFactory()
+        self.drive_factory = DriveFactory()
 
     async def initialize(self):
         if self.robot_online:
@@ -14,15 +16,16 @@ class SetupConfig:
             self.camera_factory.add_camera_online("oak0")
             print("add camera online")
             await self.camera_factory.start_all()
-            can = None
+            can_handler = None
+            drive_handler = self.drive_factory.create_online()
             self.cameras.append(self.camera_factory.get_camera("oak0"))
-            return self.cameras, can
+            return self.cameras, can_handler, drive_handler
         else:
             self.camera_factory.add_camera_offline("video")
             self.cameras.append(self.camera_factory.get_camera("video"))
-            can = self.can_bus_factory.create_offline()
+            can_handler = self.can_bus_factory.create_offline()
             self.camera_factory.start_all()
-            return self.cameras, can
+            return self.cameras, can_handler
 
     def deinitialize(self):
         self.camera_factory.stop_all()

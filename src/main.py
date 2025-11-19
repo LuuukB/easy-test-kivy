@@ -28,6 +28,7 @@ from kivy.graphics.texture import Texture
 from config.setup_config import SetupConfig
 from canbus.micro_can_handler import AsyncCanHandler
 from custom_pdo.can_message_structure import SetupPdo
+from virtual_joystick.joystick import VirtualJoystickWidget
 
 
 class TemplateApp(App):
@@ -68,20 +69,24 @@ class TemplateApp(App):
         print("setup_can")
         self.canhandler = AsyncCanHandler()
         print("setupconfig")
-        self.cameras, self.can = await setupconfig.initialize()
+        self.cameras, self.can, drive_handler = await setupconfig.initialize()
         print("start task")
         asyncio.create_task(self.canhandler.run())
         print("task started")
         while self.root is None:
             await asyncio.sleep(0.01)
 
-        msg = SetupPdo(command = 1, amount = 300)
+        #msg = SetupPdo(command = 1, amount = 300)
+
+        joystick: VirtualJoystickWidget = self.root.ids["joystick"]
 
         while True:
 
-            print("sending cann")
-            await self.canhandler.send_packet(msg, 0x301)
-            await asyncio.sleep(2)
+            await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
+            await asyncio.sleep(0.02)
+            #print("sending cann")
+            #await self.canhandler.send_packet(msg, 0x301)
+            #await asyncio.sleep(2)
 
             #frame = await self.cameras[0].get_frame()
             #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)

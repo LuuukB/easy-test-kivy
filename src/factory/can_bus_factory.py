@@ -2,9 +2,8 @@ class CanBusFactory:
 
     @staticmethod
     def create_online():
-            from can.can_handler import CanHandler
-            print("canbus factory")
-            return CanHandler()
+        from can.can_handler import CanHandler
+        return CanHandler()
 
     @staticmethod
     def create_offline():

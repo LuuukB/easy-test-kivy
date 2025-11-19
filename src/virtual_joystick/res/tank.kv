@@ -1,0 +1,41 @@
+<VirtualTankWidget>:
+    tank_width: 100
+    water_height: 200
+    water_level: 0.5
+    tank_position_x: 0
+    tank_position_y: 0
+    canvas:
+        Color:
+            rgba: 0.2, 0.2, 0.2, 1.0
+        Rectangle:
+            id: tank_outline
+            pos: root.center_x - root.width // 2, root.center_y - root.height // 2
+            size: root.width, root.height
+        Color:
+            rgba: 0.0, 0.749, 1.0, 1.0
+        Rectangle:
+            id: water
+            pos: root.center_x - root.width // 2 + 5, root.center_y - root.height // 2
+            size: root.width - 10, root.height * root.water_level
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10
+        spacing: 10
+        size_hint: 0.6, 0.3
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+        Label:
+            id: percent_label
+            text: "{:.0f}%".format(root.percent)
+            font_size: "40sp"
+            halign: "center"
+            valign: "middle"
+            text_size: self.size
+
+        Slider:
+            min: 0
+            max: 100
+            value: root.percent
+            on_value: root.adjust_water(self.value)
+
+
