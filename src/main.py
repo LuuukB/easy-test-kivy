@@ -76,6 +76,7 @@ class TemplateApp(App):
 
         while True:
 
+            print("sending cann")
             canhandler.send_packet(msg, 0x301)
             await asyncio.sleep(2)
 
