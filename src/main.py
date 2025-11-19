@@ -77,7 +77,7 @@ class TemplateApp(App):
         while True:
 
             print("sending cann")
-            canhandler.send_packet(msg, 0x301)
+            await canhandler.send_packet(msg, 0x301)
             await asyncio.sleep(2)
 
             #frame = await self.cameras[0].get_frame()
