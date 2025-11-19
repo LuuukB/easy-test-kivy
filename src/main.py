@@ -67,11 +67,11 @@ class TemplateApp(App):
     async def template_function(self) -> None:
         setupconfig = SetupConfig()
         print("setup_can")
-        self.canhandler = AsyncCanHandler()
+        #self.canhandler = AsyncCanHandler()
         print("setupconfig")
         self.cameras, self.can, drive_handler = await setupconfig.initialize()
         print("start task")
-        asyncio.create_task(self.canhandler.run())
+        #asyncio.create_task(self.canhandler.run())
         print("task started")
         while self.root is None:
             await asyncio.sleep(0.01)
