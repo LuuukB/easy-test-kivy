@@ -29,18 +29,6 @@ class DriveHandler(IDriveHandler):
     async def send_speed(self, twist: Twist2d):
         await self.client.request_reply("twist", twist)
 
-    async def connect(self,):
-        rate = self.client.config.subscriptions[0].every_n
-        async for event, payload in self.client.subscribe(
-            SubscribeRequest(uri=Uri(path="/state"), every_n=rate),
-            decode=False,
-        ):
-            message = payload_to_protobuf(event, payload)
-            tpdo1 = AmigaTpdo1.from_proto(message.amiga_tpdo1)
-
-            if tpdo1.state == AmigaControlState.STATE_AUTO_READY:
-                print("Amiga Tpdo1 ready")
-                await self.change_state()
 
     async def set_speed(self, linear_velocity_x, angular_velocity):
             message = payload_to_protobuf(event, payload)
@@ -49,16 +37,3 @@ class DriveHandler(IDriveHandler):
             twist.linear_velocity_x = self.max_speed * linear_velocity_x
             twist.angular_velocity = self.max_angular_rate * angular_velocity
             await self.send_speed(twist)
-
-    async def change_state(self):
-        rpdo = AmigaRpdo1(
-            state_req=AmigaControlState.STATE_AUTO_ACTIVE,
-            cmd_speed=0.0,  # optioneel, snelheid kan 0 zijn
-            cmd_ang_rate=0.0
-        )
-
-        # Verstuur het bericht één keer
-        await self.client.transmit(
-            uri="/cmd",
-            payload=rpdo.to_proto()
-        )
