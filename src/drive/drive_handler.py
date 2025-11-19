@@ -27,4 +27,4 @@ class DriveHandler(IDriveHandler):
         twist = Twist2d()
         twist.linear_velocity_x = self.max_speed * linear_velocity_x
         twist.angular_velocity = self.max_angular_rate * angular_velocity
-        await send_speed(twist)
+        await self.send_speed(twist)
