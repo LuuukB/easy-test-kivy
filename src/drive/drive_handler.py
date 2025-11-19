@@ -6,12 +6,9 @@ from farm_ng.canbus.canbus_pb2 import Twist2d
 from farm_ng.core.event_client import EventClient
 from farm_ng.core.event_service_pb2 import EventServiceConfigList
 from farm_ng.core.events_file_reader import proto_from_json_file
-from farm_ng.core.events_file_reader import payload_to_protobuf
-from farm_ng.core.event_service_pb2 import SubscribeRequest
-from farm_ng.canbus.packet import AmigaRpdo1
-from farm_ng.canbus.packet import AmigaTpdo1
-from farm_ng.canbus.packet import AmigaControlState
-from farm_ng.core.uri_pb2 import Uri
+
+
+
 
 
 class DriveHandler(IDriveHandler):
@@ -28,7 +25,6 @@ class DriveHandler(IDriveHandler):
 
     async def send_speed(self, twist: Twist2d):
         await self.client.request_reply("/twist", twist)
-
 
     async def set_speed(self, linear_velocity_x, angular_velocity):
             twist = Twist2d()
