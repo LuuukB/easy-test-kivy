@@ -84,6 +84,7 @@ class TemplateApp(App):
         while True:
 
             await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
+            print(f"{joystick.joystick_pose.y} , {joystick.joystick_pose.x}")
             await asyncio.sleep(0.02)
             #print("sending cann")
             #await self.canhandler.send_packet(msg, 0x301)
