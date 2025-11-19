@@ -100,7 +100,7 @@ class TemplateApp(App):
 
         print("drive")
         while True:
-            await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
+            await self.drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
 
             await asyncio.sleep(0.02)
 
