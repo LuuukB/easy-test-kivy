@@ -63,6 +63,7 @@ class TemplateApp(App):
 
     async def template_function(self) -> None:
         setupconfig = SetupConfig()
+        print("setup_can")
         canhandler = AsyncCanHandler()
         print("setupconfig")
         self.cameras, self.can = await setupconfig.initialize()
