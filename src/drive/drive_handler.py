@@ -27,7 +27,7 @@ class DriveHandler(IDriveHandler):
                 print("canbus started")
 
     async def send_speed(self, twist: Twist2d):
-        await self.client.request_reply("twist", twist)
+        await self.client.request_reply("/twist", twist)
 
 
     async def set_speed(self, linear_velocity_x, angular_velocity):
