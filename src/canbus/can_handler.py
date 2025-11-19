@@ -38,7 +38,7 @@ class CanHandler(ICanHandler):
 
     async def send_to_microcontroller(self, message: RawCanbusMessage):
         print(f"{message}")
-        await self.client.publish("/raw_message", message)
+        await self.client.request_reply("/raw_message", message)
 
     async def _listen(self, destination):
         req = SubscribeRequest(uri=Uri(path=destination), every_n=1)
