@@ -83,9 +83,10 @@ class TemplateApp(App):
 
         joystick: VirtualJoystickWidget = self.root.ids["joystick"]
 
-        await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
+        while True:
+            await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
 
-        await asyncio.sleep(0.01)
+            await asyncio.sleep(0.02)
             #print("sending cann")
             #await self.canhandler.send_packet(msg, 0x301)
             #await asyncio.sleep(2)
