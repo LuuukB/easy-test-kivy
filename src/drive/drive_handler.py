@@ -10,7 +10,6 @@ from farm_ng.core.events_file_reader import payload_to_protobuf
 from farm_ng.core.event_service_pb2 import SubscribeRequest
 from farm_ng.canbus.packet import AmigaRpdo1
 from farm_ng.canbus.packet import AmigaControlState
-from farm_ng.core.events_file_reader import to_proto
 from farm_ng.core.uri_pb2 import Uri
 
 
