@@ -5,6 +5,7 @@ from farm_ng.core.event_client import EventClient
 from farm_ng.core.event_service_pb2 import SubscribeRequest
 from farm_ng.core.event_service_pb2 import EventServiceConfig
 from farm_ng.core.event_service_pb2 import EventServiceConfigList
+from farm_ng.canbus.canbus_pb2 import RawCanbusMessage
 from farm_ng.core.uri_pb2 import Uri
 from farm_ng.canbus.canbus_pb2 import Twist2d
 from farm_ng.core.events_file_reader import proto_from_json_file
@@ -35,9 +36,9 @@ class CanHandler(ICanHandler):
     async def send_twist(self, message : Twist2d):
         await self.client.request_reply("twist", message)
 
-    async def send_to_microcontroller(self, destination, message):
-        print(f"{message} to {destination}")
-        await self.client.publish(destination, message)
+    async def send_to_microcontroller(self, message: RawCanbusMessage):
+        print(f"{message}")
+        await self.client.publish("/raw_message", message)
 
     async def _listen(self, destination):
         req = SubscribeRequest(uri=Uri(path=destination), every_n=1)

@@ -30,6 +30,7 @@ from config.setup_config import SetupConfig
 from canbus.micro_can_handler import AsyncCanHandler
 from custom_pdo.can_message_structure import SetupPdo
 from virtual_joystick.joystick import VirtualJoystickWidget
+from farm_ng.canbus.canbus_pb2 import RawCanbusMessage
 
 
 
@@ -69,7 +70,7 @@ class TemplateApp(App):
         # Placeholder task
         #self.async_tasks.append(asyncio.ensure_future(self.template_function()))
         self.async_tasks.append(asyncio.create_task(self.camera_task()))
-        self.async_tasks.append(asyncio.create_task(self.drive_task()))
+        #self.async_tasks.append(asyncio.create_task(self.drive_task()))
         self.async_tasks.append(asyncio.create_task(self.canbus_task()))
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
 
@@ -111,13 +112,16 @@ class TemplateApp(App):
         while self.root is None:
             await asyncio.sleep(0.01)
 
-        self.canhandler = AsyncCanHandler()
-        self.async_tasks.append(asyncio.create_task(self.canhandler.run()))
-        msg = SetupPdo(command=1, amount=300)
+        msg = RawCanbusMessage()
+        msg.stamp = time.monotonic()  # tijdstip, of 0.0 als je dat wilt
+        msg.id = 0x301  # jouw CAN-ID
+        msg.error = False  # geen error frame
+        msg.remote_transmission = False  # geen RTR
+        msg.data = b'\x01\x02\x00\x00'  # payload (max 8 bytes)
 
         while True:
             print("sending cann")
-            await self.canhandler.send_packet(msg, 0x301)
+            await self.can.send_to_microcontroller(msg)
             await asyncio.sleep(2)
 
     async def template_function(self) -> None:

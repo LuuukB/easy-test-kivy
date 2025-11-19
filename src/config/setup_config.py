@@ -12,14 +12,15 @@ class SetupConfig:
 
     async def initialize(self):
         if self.robot_online:
-            #can = self.can_bus_factory.create_online()
+            can = self.can_bus_factory.create_online()
             self.camera_factory.add_camera_online("oak0")
             print("add camera online")
             await self.camera_factory.start_all()
             can_handler = None
-            drive_handler = self.drive_factory.create_online()
+            #drive_handler = self.drive_factory.create_online()
+            drive_handler = None
             self.cameras.append(self.camera_factory.get_camera("oak0"))
-            return self.cameras, can_handler, drive_handler
+            return self.cameras, can, drive_handler
         else:
             self.camera_factory.add_camera_offline("video")
             self.cameras.append(self.camera_factory.get_camera("video"))

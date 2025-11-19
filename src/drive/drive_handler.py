@@ -7,10 +7,6 @@ from farm_ng.core.event_client import EventClient
 from farm_ng.core.event_service_pb2 import EventServiceConfigList
 from farm_ng.core.events_file_reader import proto_from_json_file
 
-
-
-
-
 class DriveHandler(IDriveHandler):
     def __init__(self):
         service_config_path = Path() / 'service_config.json'
