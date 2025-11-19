@@ -82,6 +82,7 @@ class TemplateApp(App):
         #msg = SetupPdo(command = 1, amount = 300)
 
         joystick: VirtualJoystickWidget = self.root.ids["joystick"]
+        await drive_handler.connect()
 
         while True:
             await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
