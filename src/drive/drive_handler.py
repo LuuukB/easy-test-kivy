@@ -36,6 +36,7 @@ class DriveHandler(IDriveHandler):
             tpdo1 = AmigaTpdo1.from_proto(message.amiga_tpdo1)
 
             if tpdo1.state == AmigaControlState.STATE_AUTO_READY:
+                print("Amiga Tpdo1 ready")
                 await self.change_state()
 
     async def set_speed(self, linear_velocity_x, angular_velocity):
