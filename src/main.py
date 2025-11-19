@@ -113,7 +113,7 @@ class TemplateApp(App):
             await asyncio.sleep(0.01)
 
         msg = RawCanbusMessage()
-        msg.stamp = time.monotonic()  # tijdstip, of 0.0 als je dat wilt
+        msg.stamp = 0  # tijdstip, of 0.0 als je dat wilt
         msg.id = 0x301  # jouw CAN-ID
         msg.error = False  # geen error frame
         msg.remote_transmission = False  # geen RTR
