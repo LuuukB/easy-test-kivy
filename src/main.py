@@ -48,7 +48,7 @@ class TemplateApp(App):
 
     def on_exit_btn(self) -> None:
         """Kills the running kivy application."""
-        self.canhandler.stop()
+        #self.canhandler.stop()
         App.get_running_app().stop()
 
     async def app_func(self):
