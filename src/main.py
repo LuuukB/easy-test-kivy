@@ -30,10 +30,15 @@ from config.setup_config import SetupConfig
 from canbus.micro_can_handler import AsyncCanHandler
 from custom_pdo.can_message_structure import SetupPdo
 from virtual_joystick.joystick import VirtualJoystickWidget
+from kivy.properties import StringProperty
 
 
 class TemplateApp(App):
     """Base class for the main Kivy app."""
+
+    amiga_state = StringProperty("???")
+    amiga_speed = StringProperty("???")
+    amiga_rate = StringProperty("???")
 
     def __init__(self) -> None:
         super().__init__()
@@ -81,10 +86,18 @@ class TemplateApp(App):
 
         joystick: VirtualJoystickWidget = self.root.ids["joystick"]
 
-        while True:
+        async for event, payload in canbus_client.subscribe(
+            SubscribeRequest(uri=Uri(path="/state"), every_n=rate),
+            decode=False,
+        ):
+            message = payload_to_protobuf(event, payload)
+            tpdo1 = AmigaTpdo1.from_proto(message.amiga_tpdo1)
 
             await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
-            print(f"{joystick.joystick_pose.y} , {joystick.joystick_pose.x}")
+            self.amiga_state = tpdo1.state.name
+            self.amiga_speed = "{:.4f}".format(twist.linear_velocity_x)
+            self.amiga_rate = "{:.4f}".format(twist.angular_velocity)
+
             await asyncio.sleep(0.02)
             #print("sending cann")
             #await self.canhandler.send_packet(msg, 0x301)
