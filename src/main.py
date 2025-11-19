@@ -112,6 +112,7 @@ class TemplateApp(App):
 
         self.canhandler = AsyncCanHandler()
         self.async_tasks.append(asyncio.create_task(self.canhandler.run()))
+        msg = SetupPdo(command=1, amount=300)
 
         while True:
             print("sending cann")
@@ -130,7 +131,7 @@ class TemplateApp(App):
         while self.root is None:
             await asyncio.sleep(0.01)
 
-        #msg = SetupPdo(command = 1, amount = 300)
+        msg = SetupPdo(command = 1, amount = 300)
 
         joystick: VirtualJoystickWidget = self.root.ids["joystick"]
 
