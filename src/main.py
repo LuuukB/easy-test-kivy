@@ -70,7 +70,8 @@ class TemplateApp(App):
         print("setupconfig")
         self.cameras, self.can = await setupconfig.initialize()
         print("start task")
-
+        asyncio.create_task(self.canhandler.run())
+        print("task started")
         while self.root is None:
             await asyncio.sleep(0.01)
 
