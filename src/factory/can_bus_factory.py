@@ -2,10 +2,10 @@ class CanBusFactory:
 
     @staticmethod
     def create_online():
-        from can.can_handler import CanHandler
+        from canbus.can_handler import CanHandler
         return CanHandler()
 
     @staticmethod
     def create_offline():
-        from can.mock_can_handler import MockCanHandler
+        from canbus.mock_can_handler import MockCanHandler
         return MockCanHandler()
