@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from farm_ng.canbus.canbus_pb2 import Twist2d
+
 class IDriveHandler(ABC):
     @abstractmethod
     def send_speed(self,twist : Twist2d):
