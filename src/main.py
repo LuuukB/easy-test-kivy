@@ -38,6 +38,7 @@ class TemplateApp(App):
         self.can = None
         self.cameras = {}
         self.counter: int = 0
+        self.canhandler : AsyncCanHandler= None
 
         self.async_tasks: List[asyncio.Task] = []
 
@@ -46,6 +47,7 @@ class TemplateApp(App):
 
     def on_exit_btn(self) -> None:
         """Kills the running kivy application."""
+        self.canhandler.stop()
         App.get_running_app().stop()
 
     async def app_func(self):
@@ -64,7 +66,7 @@ class TemplateApp(App):
     async def template_function(self) -> None:
         setupconfig = SetupConfig()
         print("setup_can")
-        canhandler = AsyncCanHandler()
+        self.canhandler = AsyncCanHandler()
         print("setupconfig")
         self.cameras, self.can = await setupconfig.initialize()
         print("start task")
@@ -77,7 +79,7 @@ class TemplateApp(App):
         while True:
 
             print("sending cann")
-            await canhandler.send_packet(msg, 0x301)
+            await self.canhandler.send_packet(msg, 0x301)
             await asyncio.sleep(2)
 
             #frame = await self.cameras[0].get_frame()
