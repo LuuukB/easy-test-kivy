@@ -98,6 +98,7 @@ class TemplateApp(App):
         while self.root is None:
             await asyncio.sleep(0.01)
 
+        joystick: VirtualJoystickWidget = self.root.ids["joystick"]
         print("drive")
         while True:
             await self.drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
