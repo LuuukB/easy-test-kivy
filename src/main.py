@@ -43,6 +43,7 @@ class TemplateApp(App):
         self.cameras = {}
         self.counter: int = 0
         self.canhandler : AsyncCanHandler= None
+        self.drive_handler = None
 
         self.async_tasks: List[asyncio.Task] = []
 
@@ -62,10 +63,59 @@ class TemplateApp(App):
             for task in self.async_tasks:
                 task.cancel()
 
-        # Placeholder task
-        self.async_tasks.append(asyncio.ensure_future(self.template_function()))
+        setupconfig = SetupConfig()
+        self.cameras, self.can, self.drive_handler = await setupconfig.initialize()
 
+        # Placeholder task
+        #self.async_tasks.append(asyncio.ensure_future(self.template_function()))
+        self.async_tasks.append(asyncio.create_task(self.camera_task()))
+        self.async_tasks.append(asyncio.create_task(self.drive_task()))
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
+
+    async def camera_task(self):
+        while self.root is None:
+            await asyncio.sleep(0.01)
+        print("camera")
+
+        while True:
+            frame = await self.cameras[0].get_frame()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            texture =Texture.create(
+                size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
+            )
+            texture.flip_vertical()
+            texture.blit_buffer(
+                bytes(frame.data),
+               colorfmt="rgb",
+               bufferfmt="ubyte",
+               mipmap_generation=False,
+            )
+
+            self.root.ids.image.texture = texture
+            await asyncio.sleep(0.01)
+
+    async def drive_task(self):
+        while self.root is None:
+            await asyncio.sleep(0.01)
+
+        print("drive")
+        while True:
+            await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
+
+            await asyncio.sleep(0.02)
+
+
+    async def canbus_task(self):
+        while self.root is None:
+            await asyncio.sleep(0.01)
+
+        self.canhandler = AsyncCanHandler()
+        self.async_tasks.append(asyncio.create_task(self.canhandler.run()))
+
+        while True:
+            print("sending cann")
+            await self.canhandler.send_packet(msg, 0x301)
+            await asyncio.sleep(2)
 
     async def template_function(self) -> None:
         setupconfig = SetupConfig()
