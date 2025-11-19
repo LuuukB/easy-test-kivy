@@ -1,6 +1,5 @@
 import asyncio
-from farm_ng.canbus import CanBusClient
-from farm_ng.canbus.packet import Frame, Packet
+
 
 
 class AsyncCanHandler:
