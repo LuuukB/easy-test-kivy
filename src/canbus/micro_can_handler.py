@@ -88,14 +88,15 @@ class AsyncCanHandler:
         """
 
         self._running = True
-        receive_task = asyncio.create_task(self._receive_task())
-        send_task = asyncio.create_task(self._send_task())
-        try:
-            await asyncio.gather(receive_task, send_task)
-        finally:
+        #receive_task = asyncio.create_task(self._receive_task())
+        asyncio.create_task(self._send_task())
+        #send_task = asyncio.create_task(self._send_task())
+        #try:
+           # await asyncio.gather(receive_task, send_task)
+        #finally:
             # ALTIJD bus sluiten, zelfs bij exceptions
-            self.bus.shutdown()
-            print("[CAN] Bus closed")
+            #self.bus.shutdown()
+            #print("[CAN] Bus closed")
 
     def stop(self):
         self._running = False
