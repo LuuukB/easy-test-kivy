@@ -24,13 +24,13 @@ class AsyncCanHandler:
     # ----------------------------
     # VERZENDEN
     # ----------------------------
-    async def send_packet(self, packet: Packet, cob_id: int):
-        frame = Frame(
-            id=cob_id,
-            data=packet.to_can_data(),
-            is_extended=False,
-        )
-        await self.send_queue.put(frame)
+    #async def send_packet(self, packet: Packet, cob_id: int):
+     #   frame = Frame(
+     #       id=cob_id,
+     #       data=packet.to_can_data(),
+     #       is_extended=False,
+     #   )
+     #   await self.send_queue.put(frame)
 
     async def _send_task(self):
         while self._running:
