@@ -70,8 +70,8 @@ class TemplateApp(App):
         # Placeholder task
         #self.async_tasks.append(asyncio.ensure_future(self.template_function()))
         self.async_tasks.append(asyncio.create_task(self.camera_task()))
-        #self.async_tasks.append(asyncio.create_task(self.drive_task()))
-        self.async_tasks.append(asyncio.create_task(self.canbus_task()))
+        self.async_tasks.append(asyncio.create_task(self.drive_task()))
+        #self.async_tasks.append(asyncio.create_task(self.canbus_task()))
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
 
     async def camera_task(self):
@@ -103,7 +103,7 @@ class TemplateApp(App):
         joystick: VirtualJoystickWidget = self.root.ids["joystick"]
         print("drive")
         while True:
-            await self.drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
+            await self.can.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
 
             await asyncio.sleep(0.02)
 

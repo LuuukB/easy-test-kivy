@@ -34,7 +34,13 @@ class CanHandler(ICanHandler):
         self.callbacks[destination].append(callback)
 
     async def send_twist(self, message : Twist2d):
-        await self.client.request_reply("twist", message)
+        await self.client.request_reply("/twist", message)
+
+    async def set_speed(self, linear_velocity_x, angular_velocity):
+        twist = Twist2d()
+        twist.linear_velocity_x = self.max_speed * linear_velocity_x
+        twist.angular_velocity = self.max_angular_rate * angular_velocity
+        await self.send_twist(twist)
 
     async def send_to_microcontroller(self, message: RawCanbusMessage):
         print(f"{message}")
