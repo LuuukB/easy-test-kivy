@@ -111,13 +111,12 @@ class TemplateApp(App):
                 break
             await asyncio.sleep(0.02)
 
-
     async def canbus_task(self):
         while self.root is None:
             await asyncio.sleep(0.01)
 
         msg = RawCanbusMessage()
-        msg.stamp = time.montonic()
+        msg.stamp = time.monotonic()
         msg.id = 0x301
         msg.error = False
         msg.remote_transmission = False
