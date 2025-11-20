@@ -71,7 +71,7 @@ class CanHandler(ICanHandler):
                 print("send message")
                 await self.client.request_reply("/raw_message", message)
             else:
-                print("❌ Amiga is NIET in Auto Ready, maar in:", state_name)
+                print("❌ Amiga is NIET in Auto Ready, maar in:", tpdo1.state.name)
 
 
     async def _listen(self, destination):
