@@ -106,7 +106,7 @@ class TemplateApp(App):
         while True:
             await self.can.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
             count += 1
-            if count > 1000:
+            if count > 500:
                 break
             await asyncio.sleep(0.02)
 
