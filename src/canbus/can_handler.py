@@ -6,8 +6,11 @@ from farm_ng.core.event_service_pb2 import SubscribeRequest
 from farm_ng.core.event_service_pb2 import EventServiceConfig
 from farm_ng.core.event_service_pb2 import EventServiceConfigList
 from farm_ng.canbus.canbus_pb2 import RawCanbusMessage
+from farm_ng.core.events_file_reader import payload_to_protobuf
+from farm_ng.canbus.packet import AmigaControlState
 from farm_ng.canbus.packet import AmigaRpdo1
 from farm_ng.canbus.packet import AmigaTpdo1
+
 from farm_ng.core.uri_pb2 import Uri
 from farm_ng.canbus.canbus_pb2 import Twist2d
 from farm_ng.core.events_file_reader import proto_from_json_file
@@ -51,7 +54,7 @@ class CanHandler(ICanHandler):
     async def send_to_microcontroller(self, message: RawCanbusMessage):
         print(f"{message}")
         print("blalblallba")
-        rate = canbus_client.config.subscriptions[0].every_n
+        rate = self.client.config.subscriptions[0].every_n
         async for event, payload in canbus_client.subscribe(
                 SubscribeRequest(uri=Uri(path="/state"), every_n=rate),
                 decode=False,
@@ -62,12 +65,9 @@ class CanHandler(ICanHandler):
             if tpdo1.control_state == AmigaControlState.STATE_AUTO_READY:
                 print("✅ Amiga staat op AUTO READY")
                 rpdo = AmigaRpdo1()
-                from farm_ng.canbus.packet import AmigaControlState
                 rpdo.control_state = AmigaControlState.STATE_AUTO_ACTIVE
-
-                msg: RawCanbusMessage = rpdo.to_raw_canbus_message()
                 print("send active")
-                await self.client.request_reply("/can_message", msg, decode=False)
+                await self.client.request_reply("/can_message", rpdo, decode=False)
                 print("send message")
                 await self.client.request_reply("/raw_message", message)
             else:
