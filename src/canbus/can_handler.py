@@ -15,6 +15,9 @@ class CanHandler(ICanHandler):
         service_config_path = Path() / 'service_config.json'
         print("canbus")
         config = proto_from_json_file(service_config_path, EventServiceConfigList())
+        self.max_speed = 0.1
+        self.max_angular_rate = 0.1
+
         for cfg in config.configs:
             if cfg.name == "canbus":
                 self.client = EventClient(cfg)
