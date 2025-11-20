@@ -62,7 +62,7 @@ class CanHandler(ICanHandler):
             message = payload_to_protobuf(event, payload)
             tpdo1 = AmigaTpdo1.from_proto(message.amiga_tpdo1)
 
-            if tpdo1.control_state == AmigaControlState.STATE_AUTO_READY:
+            if tpdo1.state.name == AmigaControlState.STATE_AUTO_READY:
                 print("✅ Amiga staat op AUTO READY")
                 rpdo = AmigaRpdo1()
                 rpdo.control_state = AmigaControlState.STATE_AUTO_ACTIVE
