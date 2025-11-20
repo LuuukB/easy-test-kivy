@@ -51,20 +51,16 @@ class CanHandler(ICanHandler):
     async def send_to_microcontroller(self, message: RawCanbusMessage):
         print(f"{message}")
         print("blalblallba")
-        uri = Uri(path="/state")
-        sub = SubscribeRequest(uri=uri, every_n=1)
-        async for event, payload in self.client.subscribe(sub, decode=False):
-            # payload is RawCanbusMessage
-            tpdo = AmigaTpdo1.from_raw_canbus_message(payload)
-            if tpdo is None:
-                continue
+        rate = canbus_client.config.subscriptions[0].every_n
+        async for event, payload in canbus_client.subscribe(
+                SubscribeRequest(uri=Uri(path="/state"), every_n=rate),
+                decode=False,
+        ):
+            message = payload_to_protobuf(event, payload)
+            tpdo1 = AmigaTpdo1.from_proto(message.amiga_tpdo1)
 
-            state = tpdo.control_state
-            # Kijk naar de naam van de state
-            state_name = AmigaControlState.Name(state)
-            print("Amiga state:", state_name)
-            if state == AmigaControlState.STATE_AUTO_READY:
-                print("✅ Amiga is in Auto Ready state!")
+            if tpdo1.control_state == AmigaControlState.STATE_AUTO_READY:
+                print("✅ Amiga staat op AUTO READY")
                 rpdo = AmigaRpdo1()
                 from farm_ng.canbus.packet import AmigaControlState
                 rpdo.control_state = AmigaControlState.STATE_AUTO_ACTIVE
