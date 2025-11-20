@@ -52,7 +52,7 @@ class CanHandler(ICanHandler):
         print("blalblallba")
         uri = Uri(path="/state")
         sub = SubscribeRequest(uri=uri, every_n=1)
-        async for event, payload in canbus_client.subscribe(sub, decode=False):
+        async for event, payload in self.client.subscribe(sub, decode=False):
             # payload is RawCanbusMessage
             tpdo = AmigaTpdo1.from_raw_canbus_message(payload)
             if tpdo is None:
@@ -70,7 +70,7 @@ class CanHandler(ICanHandler):
 
                 msg: RawCanbusMessage = rpdo.to_raw_canbus_message()
                 print("send active")
-                await canbus_client.request_reply("/can_message", msg, decode=False)
+                await self.client.request_reply("/can_message", msg, decode=False)
                 print("send message")
                 await self.client.request_reply("/raw_message", message)
             else:
