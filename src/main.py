@@ -102,9 +102,12 @@ class TemplateApp(App):
 
         joystick: VirtualJoystickWidget = self.root.ids["joystick"]
         print("drive")
+        count = 0
         while True:
             await self.can.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
-
+            count += 1
+            if count > 1000:
+                break
             await asyncio.sleep(0.02)
 
 
