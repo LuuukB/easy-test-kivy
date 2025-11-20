@@ -55,7 +55,7 @@ class CanHandler(ICanHandler):
         print(f"{message}")
         print("blalblallba")
         rate = self.client.config.subscriptions[0].every_n
-        async for event, payload in canbus_client.subscribe(
+        async for event, payload in self.client.subscribe(
                 SubscribeRequest(uri=Uri(path="/state"), every_n=rate),
                 decode=False,
         ):
