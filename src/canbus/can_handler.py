@@ -6,6 +6,7 @@ from farm_ng.core.event_service_pb2 import SubscribeRequest
 from farm_ng.core.event_service_pb2 import EventServiceConfig
 from farm_ng.core.event_service_pb2 import EventServiceConfigList
 from farm_ng.canbus.canbus_pb2 import RawCanbusMessage
+from farm_ng.canbus.packet import AmigaRpdo1
 from farm_ng.core.uri_pb2 import Uri
 from farm_ng.canbus.canbus_pb2 import Twist2d
 from farm_ng.core.events_file_reader import proto_from_json_file
@@ -49,7 +50,32 @@ class CanHandler(ICanHandler):
     async def send_to_microcontroller(self, message: RawCanbusMessage):
         print(f"{message}")
         print("blalblallba")
-        await self.client.request_reply("/raw_message", message)
+        uri = Uri(path="/state")
+        sub = SubscribeRequest(uri=uri, every_n=1)
+        async for event, payload in canbus_client.subscribe(sub, decode=False):
+            # payload is RawCanbusMessage
+            tpdo = AmigaTpdo1.from_raw_canbus_message(payload)
+            if tpdo is None:
+                continue
+
+            state = tpdo.control_state
+            # Kijk naar de naam van de state
+            state_name = AmigaControlState.Name(state)
+            print("Amiga state:", state_name)
+            if state == AmigaControlState.STATE_AUTO_READY:
+                print("✅ Amiga is in Auto Ready state!")
+                rpdo = AmigaRpdo1()
+                from farm_ng.canbus.packet import AmigaControlState
+                rpdo.control_state = AmigaControlState.STATE_AUTO_ACTIVE
+
+                msg: RawCanbusMessage = rpdo.to_raw_canbus_message()
+                print("send active")
+                await canbus_client.request_reply("/can_message", msg, decode=False)
+                print("send message")
+                await self.client.request_reply("/raw_message", message)
+            else:
+                print("❌ Amiga is NIET in Auto Ready, maar in:", state_name)
+
 
     async def _listen(self, destination):
         req = SubscribeRequest(uri=Uri(path=destination), every_n=1)
