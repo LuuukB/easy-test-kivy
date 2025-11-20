@@ -68,7 +68,7 @@ class CanHandler(ICanHandler):
                 rpdo.control_state = AmigaControlState.STATE_AUTO_ACTIVE
                 msg = rpdo.to_raw_canbus_message()
                 print("send active")
-                await self.client.request_reply("/raw_message", msg, decode=False)
+                await self.client.request_reply("/raw_messages", msg, decode=False)
                 print("send message")
                 await self.client.request_reply("/raw_message", message)
             else:
