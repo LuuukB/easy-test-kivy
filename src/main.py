@@ -2,6 +2,7 @@
 import argparse
 import asyncio
 import os
+import time
 import cv2
 import asyncio
 from typing import List
@@ -116,11 +117,11 @@ class TemplateApp(App):
             await asyncio.sleep(0.01)
 
         msg = RawCanbusMessage()
-        msg.stamp = 0  # tijdstip, of 0.0 als je dat wilt
-        msg.id = 0x301  # jouw CAN-ID
-        msg.error = False  # geen error frame
-        msg.remote_transmission = False  # geen RTR
-        msg.data = b'\x01\x02\x00\x00'  # payload (max 8 bytes)
+        msg.stamp = time.montonic()
+        msg.id = 0x301
+        msg.error = False
+        msg.remote_transmission = False
+        msg.data = b'\x01\x02\x00\x00'
 
         while True:
             print("sending cann")
