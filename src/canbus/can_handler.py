@@ -7,6 +7,7 @@ from farm_ng.core.event_service_pb2 import EventServiceConfig
 from farm_ng.core.event_service_pb2 import EventServiceConfigList
 from farm_ng.canbus.canbus_pb2 import RawCanbusMessage
 from farm_ng.canbus.packet import AmigaRpdo1
+from farm_ng.canbus.packet import AmigaTpdo1
 from farm_ng.core.uri_pb2 import Uri
 from farm_ng.canbus.canbus_pb2 import Twist2d
 from farm_ng.core.events_file_reader import proto_from_json_file
