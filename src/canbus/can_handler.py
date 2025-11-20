@@ -66,7 +66,7 @@ class CanHandler(ICanHandler):
                 print("✅ Amiga staat op AUTO READY")
                 rpdo = AmigaRpdo1()
                 rpdo.control_state = AmigaControlState.STATE_AUTO_ACTIVE
-                msg = rpdo.encode()
+                msg = rpdo.to_proto()
                 print("send active")
                 await self.client.request_reply("/can_message", msg, decode=False)
                 print("send message")
