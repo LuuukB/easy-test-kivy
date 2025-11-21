@@ -72,8 +72,8 @@ class TemplateApp(App):
         #self.async_tasks.append(asyncio.ensure_future(self.template_function()))
         self.async_tasks.append(asyncio.create_task(self.camera_task()))
         self.async_tasks.append(asyncio.create_task(self.camera_task2()))
-        self.async_tasks.append(asyncio.create_task(self.drive_task()))
-        self.async_tasks.append(asyncio.create_task(self.canbus_task()))
+        #self.async_tasks.append(asyncio.create_task(self.drive_task()))
+        #self.async_tasks.append(asyncio.create_task(self.canbus_task()))
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
 
     async def camera_task(self):
