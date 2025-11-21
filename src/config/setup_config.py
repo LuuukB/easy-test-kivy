@@ -24,9 +24,10 @@ class SetupConfig:
         else:
             self.camera_factory.add_camera_offline("video")
             self.cameras.append(self.camera_factory.get_camera("video"))
-            can_handler = self.can_bus_factory.create_offline()
+            #can_handler = self.can_bus_factory.create_offline()
             self.camera_factory.start_all()
             drive_handler = None
+            can_handler = None
             return self.cameras, can_handler, drive_handler
 
     def deinitialize(self):
