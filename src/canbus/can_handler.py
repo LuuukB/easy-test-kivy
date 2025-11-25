@@ -54,25 +54,10 @@ class CanHandler(ICanHandler):
     async def send_to_microcontroller(self, message: RawCanbusMessage):
         print(f"{message}")
         print("blalblallba")
-        rate = self.client.config.subscriptions[0].every_n
-        async for event, payload in self.client.subscribe(
-                SubscribeRequest(uri=Uri(path="/state"), every_n=rate),
-                decode=False,
-        ):
-            message = payload_to_protobuf(event, payload)
-            tpdo1 = AmigaTpdo1.from_proto(message.amiga_tpdo1)
 
-            if tpdo1.state == AmigaControlState.STATE_AUTO_READY:
-                print("✅ Amiga staat op AUTO READY")
-                rpdo = AmigaRpdo1()
-                rpdo.control_state = AmigaControlState.STATE_AUTO_ACTIVE
-                msg = rpdo.to_raw_canbus_message()
-                print("send active")
-                await self.client.request_reply("/raw_messages", msg, decode=False)
-                print("send message")
-                await self.client.request_reply("/raw_message", message)
-            else:
-                print("❌ Amiga is NIET in Auto Ready, maar in:", tpdo1.state.name)
+        print("send message")
+        await self.client.request_reply("/raw_message", message)
+        await self.client.request_reply("/raw_messages", message)
 
 
     async def _listen(self, destination):
