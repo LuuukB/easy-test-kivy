@@ -138,14 +138,15 @@ class TemplateApp(App):
         while self.root is None:
             await asyncio.sleep(0.01)
 
-        msg = RawCanbusMessage()
-        msg.stamp = time.monotonic()
-        msg.id = 0x301
-        msg.error = False
-        msg.remote_transmission = False
-        msg.data = b'\x01\x02\x00\x00'
 
         while True:
+            msg = RawCanbusMessage()
+            msg.stamp = time.monotonic()
+            msg.id = 0x301
+            msg.error = False
+            msg.remote_transmission = False
+            msg.data = b'\x01\x02\x00\x00'
+
             print("sending cann")
             await self.can.send_to_microcontroller(msg)
             await asyncio.sleep(2)
