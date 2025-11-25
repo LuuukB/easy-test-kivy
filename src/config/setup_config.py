@@ -36,7 +36,7 @@ class SetupConfig:
 
     def check_robot_status(self):
         #check robot status
-        self.robot_online = False
+        self.robot_online = True
         return self.robot_online
 
 
