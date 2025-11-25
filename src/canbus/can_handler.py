@@ -57,6 +57,7 @@ class CanHandler(ICanHandler):
 
         print("send message")
         print(await self.client.request_reply("/raw_message", message))
+        print("done")
         await self.client.request_reply("/raw_messages", message)
 
 
