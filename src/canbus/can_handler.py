@@ -58,10 +58,10 @@ class CanHandler(ICanHandler):
         try:
             result = await self.client.request_reply("/raw_message", message)
             print(result)
+            print("yeey")
         except Exception as e:
             print(f"Exception occurred: {e}")
         print("done")
-        await self.client.request_reply("/raw_messages", message)
 
 
     async def _listen(self, destination):
