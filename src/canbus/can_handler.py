@@ -53,10 +53,13 @@ class CanHandler(ICanHandler):
 
     async def send_to_microcontroller(self, message: RawCanbusMessage):
         print(f"{message}")
-        print("blalblallba")
 
         print("send message")
-        print(await self.client.request_reply("/raw_message", message))
+        try:
+            result = await self.client.request_reply("/raw_message", message)
+            print(result)
+        except Exception as e:
+            print(f"Exception occurred: {e}")
         print("done")
         await self.client.request_reply("/raw_messages", message)
 
