@@ -42,7 +42,7 @@ class AsyncCanHandler:
     # ----------------------------
     # Verzenden
     # ----------------------------
-    async def send_packet(self, packet: Packet, cob_id: int):
+    def send_packet(self, packet: Packet, cob_id: int):
         """
         Plaatst een Packet in de send queue om naar de microcontroller te sturen
         """
@@ -52,7 +52,12 @@ class AsyncCanHandler:
             data=packet.to_can_data(),
             is_extended_id=False
         )
-        await self.send_queue.put(msg)
+        try:
+            self.bus.send(msg)
+            print(f"[CAN] Sent: COB_ID=0x{msg.arbitration_id:X}, data={msg.data}")
+        except Exception as e:
+            print(f"[CAN] Send error: {e}")
+        #await self.send_queue.put(msg)
 
     async def _send_task(self):
         while self._running:
