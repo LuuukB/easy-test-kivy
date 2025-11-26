@@ -138,12 +138,14 @@ class TemplateApp(App):
         while self.root is None:
             await asyncio.sleep(0.01)
 
-        msg = SetupPdo(command=1, amount=300)
+        i = 200
+
 
         while True:
-
+            msg = SetupPdo(command=1, amount=i)
             print("sending cann")
             await self.can_handler.send_packet(packet = msg, cob_id = 0x301)
+            i += 1
             await asyncio.sleep(2)
 
     async def template_function(self) -> None:
