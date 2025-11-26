@@ -46,6 +46,7 @@ class AsyncCanHandler:
         """
         Plaatst een Packet in de send queue om naar de microcontroller te sturen
         """
+        print("can on queue")
         msg = can.Message(
             arbitration_id=cob_id,
             data=packet.to_can_data(),
