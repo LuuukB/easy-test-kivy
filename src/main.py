@@ -44,7 +44,7 @@ class TemplateApp(App):
         self.can = None
         self.cameras = {}
         self.counter: int = 0
-        self.canhandler : AsyncCanHandler= None
+        self.can_handler : AsyncCanHandler = AsyncCanHandler()
         self.drive_handler = None
 
         self.async_tasks: List[asyncio.Task] = []
@@ -54,7 +54,7 @@ class TemplateApp(App):
 
     def on_exit_btn(self) -> None:
         """Kills the running kivy application."""
-        #self.canhandler.stop()
+        self.can_handler.stop()
         App.get_running_app().stop()
 
     async def app_func(self):
@@ -138,17 +138,12 @@ class TemplateApp(App):
         while self.root is None:
             await asyncio.sleep(0.01)
 
+        msg = SetupPdo(command=1, amount=300)
 
         while True:
-            msg = RawCanbusMessage()
-            msg.stamp = time.monotonic()
-            msg.id = 0x301
-            msg.error = False
-            msg.remote_transmission = False
-            msg.data = b'\x01\x02\x00\x00'
 
             print("sending cann")
-            await self.can.send_to_microcontroller(msg)
+            await self.can_handler.send_packet(packet = msg, cob_id = 0x301)
             await asyncio.sleep(2)
 
     async def template_function(self) -> None:

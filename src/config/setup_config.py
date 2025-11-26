@@ -12,7 +12,8 @@ class SetupConfig:
 
     async def initialize(self):
         if self.robot_online:
-            can = self.can_bus_factory.create_online()
+            can = None
+            #can = self.can_bus_factory.create_online()
             self.camera_factory.add_camera_online("oak0")
             print("add camera online")
             await self.camera_factory.start_all()
