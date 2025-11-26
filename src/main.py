@@ -67,7 +67,7 @@ class TemplateApp(App):
 
         setupconfig = SetupConfig()
         self.cameras, self.can, self.drive_handler = await setupconfig.initialize()
-
+        await self.can_handler.run()
         # Placeholder task
         #self.async_tasks.append(asyncio.ensure_future(self.template_function()))
         #self.async_tasks.append(asyncio.create_task(self.camera_task()))
