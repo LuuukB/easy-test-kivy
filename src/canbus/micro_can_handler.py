@@ -17,12 +17,12 @@ class AsyncCanHandler:
         self._running = False
 
         # receiving via notifier
-        self.reader = can.AsyncBufferedReader()
-        self.notifier = can.Notifier(
-            self.bus,
-            [self.reader],
-            timeout=0.01
-        )
+        #self.reader = can.AsyncBufferedReader()
+        #self.notifier = can.Notifier(
+        #    self.bus,
+        #    [self.reader],
+        #    timeout=0.01
+        #)
 
         # optioneel: callbacks per cob_id
         self.callbacks = {}
@@ -100,5 +100,5 @@ class AsyncCanHandler:
 
     def stop(self):
         self._running = False
-        self.notifier.stop()
+        #self.notifier.stop()
         self.bus.shutdown()
