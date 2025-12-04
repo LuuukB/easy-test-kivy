@@ -1,6 +1,8 @@
 from factory.camera_factory import CameraFactory
 from factory.can_bus_factory import CanBusFactory
 from factory.drive_factory import DriveFactory
+from typing import List
+
 class SetupConfig:
     def __init__(self):
         self.cameras = []
