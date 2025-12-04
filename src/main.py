@@ -72,6 +72,7 @@ class TemplateApp(App):
         #self.async_tasks.append(asyncio.ensure_future(self.template_function()))
         self.async_tasks.append(asyncio.create_task(self.camera_task()))
         self.async_tasks.append(asyncio.create_task(self.camera_task2()))
+        self.async_tasks.append(asyncio.create_task(self.camera_task3()))
         #self.async_tasks.append(asyncio.create_task(self.drive_task()))
         #self.async_tasks.append(asyncio.create_task(self.canbus_task()))
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
@@ -118,6 +119,28 @@ class TemplateApp(App):
             )
 
             self.root.ids.image2.texture = texture
+            await asyncio.sleep(0.01)
+
+    async def camera_task3(self):
+        while self.root is None:
+            await asyncio.sleep(0.01)
+        print("camera")
+
+        while True:
+            frame = await self.cameras[0].get_frame()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            texture =Texture.create(
+                size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
+            )
+            texture.flip_vertical()
+            texture.blit_buffer(
+                bytes(frame.data),
+               colorfmt="rgb",
+               bufferfmt="ubyte",
+               mipmap_generation=False,
+            )
+
+            self.root.ids.image3.texture = texture
             await asyncio.sleep(0.01)
 
     async def drive_task(self):
