@@ -163,7 +163,7 @@ class TemplateApp(App):
                mipmap_generation=False,
             )
 
-            self.root.ids.image3.texture = texture
+            self.root.ids.image4.texture = texture
             await asyncio.sleep(0.01)
 
     async def drive_task(self):
