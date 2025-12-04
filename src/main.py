@@ -166,6 +166,27 @@ class TemplateApp(App):
             self.root.ids.image4.texture = texture
             await asyncio.sleep(0.01)
 
+    async def camera_task5(self):
+        while self.root is None:
+            await asyncio.sleep(0.01)
+        print("camera")
+
+        while True:
+            frame = await self.cameras[0].get_frame()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            texture =Texture.create(
+                size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
+            )
+            texture.flip_vertical()
+            texture.blit_buffer(
+                bytes(frame.data),
+               colorfmt="rgb",
+               bufferfmt="ubyte",
+               mipmap_generation=False,
+            )
+
+            self.root.ids.image5.texture = texture
+            await asyncio.sleep(0.01)
     async def drive_task(self):
         while self.root is None:
             await asyncio.sleep(0.01)
