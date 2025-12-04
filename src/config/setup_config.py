@@ -28,6 +28,7 @@ class SetupConfig:
             self.camera_factory.add_camera_offline("video")
             self.cameras.append(self.camera_factory.get_camera("video"))
             #can_handler = self.can_bus_factory.create_offline()
+            print("add offline camera")
             self.camera_factory.start_all()
             drive_handler = None
             can_handler = None
@@ -39,7 +40,7 @@ class SetupConfig:
 
     def check_robot_status(self):
         #check robot status
-        self.robot_online = True
+        self.robot_online = False
         return self.robot_online
 
 
