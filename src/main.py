@@ -159,33 +159,34 @@ class TemplateApp(App):
         while self.root is None:
             await asyncio.sleep(0.01)
 
-        msg = SetupPdo(command = 1, amount = 300)
+        #msg = SetupPdo(command = 1, amount = 300)
 
-        joystick: VirtualJoystickWidget = self.root.ids["joystick"]
+        #joystick: VirtualJoystickWidget = self.root.ids["joystick"]
 
         while True:
-            await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
+            #await drive_handler.set_speed(joystick.joystick_pose.y, -joystick.joystick_pose.x)
 
-            await asyncio.sleep(0.02)
+            #await asyncio.sleep(0.02)
             #print("sending cann")
             #await self.canhandler.send_packet(msg, 0x301)
             #await asyncio.sleep(2)
 
-            #frame = await self.cameras[0].get_frame()
-            #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            #texture =Texture.create(
-            #    size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
-            #)
-            #texture.flip_vertical()
-            #texture.blit_buffer(
-            #    bytes(frame.data),
-            #    colorfmt="rgb",
-            #    bufferfmt="ubyte",
-            #    mipmap_generation=False,
-            #)
+            frame = await self.cameras[0].get_frame()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            texture =Texture.create(
+                size=(frame.shape[1], frame.shape[0]), icolorfmt="rgb"
+            )
+            texture.flip_vertical()
+            texture.blit_buffer(
+                bytes(frame.data),
+                colorfmt="rgb",
+                bufferfmt="ubyte",
+                mipmap_generation=False,
+            )
 
-            #self.root.ids.image.texture = texture
-            #await asyncio.sleep(0.01)
+            self.root.ids.image.texture = texture
+            self.root.ids.image2.texture = texture
+            await asyncio.sleep(0.01)
 
 
 if __name__ == "__main__":

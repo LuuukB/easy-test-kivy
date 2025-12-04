@@ -41,5 +41,40 @@ class SetupConfig:
         return self.robot_online
 
 
+from factory.camera_factory import CameraFactory
+from camera.i_camera_handler import ICameraHandler
+
+
+class Setup:
+    def __init__(self):
+        self.robot_online = self.check_status()
+        self.camera_factory = CameraFactory()
+        self.cameras : List[ICameraHandler]= []
+        self.camera_handler = None
+
+    async def initialize(self, camera_names : List[str] = None):
+        """"
+        camera_names must be the names of the corresponding camera in service_config.json
+        """
+        if self.robot_online:
+            #setup camera's
+            self.cameras = [self.camera_factory.add_camera_online(name) for name in camera_names]
+            await self.camera_factory.start_all()
+
+            #setup canbus
+
+            return self.cameras
+        else:
+            #setup mock camera(s)
+            self.cameras = [self.camera_factory.add_camera_offline() for _ in range(len(camera_names))]
+
+            #setup mock canbus
+
+            return self.cameras
+
+    def check_status(self):
+        return False
+
+
 
 
