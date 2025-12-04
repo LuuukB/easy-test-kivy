@@ -6,7 +6,7 @@ from typing import List
 class SetupConfig:
     def __init__(self):
         self.cameras = []
-        self.robot_online = True
+        self.robot_online = False
         self.check_robot_status()
         self.camera_factory = CameraFactory()
         self.can_bus_factory = CanBusFactory()
