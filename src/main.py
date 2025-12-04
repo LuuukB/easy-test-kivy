@@ -44,7 +44,7 @@ class TemplateApp(App):
         self.can = None
         self.cameras = {}
         self.counter: int = 0
-        self.can_handler : AsyncCanHandler = AsyncCanHandler()
+        #self.can_handler : AsyncCanHandler = AsyncCanHandler()
         self.drive_handler = None
 
         self.async_tasks: List[asyncio.Task] = []
@@ -54,7 +54,7 @@ class TemplateApp(App):
 
     def on_exit_btn(self) -> None:
         """Kills the running kivy application."""
-        self.can_handler.stop()
+        #self.can_handler.stop()
         App.get_running_app().stop()
 
     async def app_func(self):
@@ -67,13 +67,13 @@ class TemplateApp(App):
 
         setupconfig = SetupConfig()
         self.cameras, self.can, self.drive_handler = await setupconfig.initialize()
-        await self.can_handler.run()
+        #await self.can_handler.run()
         # Placeholder task
         #self.async_tasks.append(asyncio.ensure_future(self.template_function()))
-        #self.async_tasks.append(asyncio.create_task(self.camera_task()))
-        #self.async_tasks.append(asyncio.create_task(self.camera_task2()))
+        self.async_tasks.append(asyncio.create_task(self.camera_task()))
+        self.async_tasks.append(asyncio.create_task(self.camera_task2()))
         #self.async_tasks.append(asyncio.create_task(self.drive_task()))
-        self.async_tasks.append(asyncio.create_task(self.canbus_task()))
+        #self.async_tasks.append(asyncio.create_task(self.canbus_task()))
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
 
     async def camera_task(self):
