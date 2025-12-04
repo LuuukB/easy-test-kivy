@@ -118,6 +118,7 @@ class TemplateApp(App):
             )
 
             self.root.ids.image2.texture = texture
+            await asyncio.sleep(0.01)
 
     async def drive_task(self):
         while self.root is None:
