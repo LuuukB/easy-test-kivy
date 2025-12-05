@@ -228,7 +228,7 @@ class TemplateApp(App):
             raw_msg = RawCanbusMessage(
                 id=0x301,
                 remote_transmission =False,        # Of het een extended 29-bit identifier is
-                error=false,                    # Data Length Code: aantal bytes in data
+                error=False,                    # Data Length Code: aantal bytes in data
                 data=msg,
                 stamp=ts)              # Timestamp (protobuf)
 
