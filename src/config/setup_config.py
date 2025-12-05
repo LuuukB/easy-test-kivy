@@ -6,7 +6,7 @@ from typing import List
 class SetupConfig:
     def __init__(self):
         self.cameras = []
-        self.robot_online = False
+        self.robot_online = True
         self.check_robot_status()
         self.camera_factory = CameraFactory()
         self.can_bus_factory = CanBusFactory()
@@ -14,8 +14,8 @@ class SetupConfig:
 
     async def initialize(self):
         if self.robot_online:
-            can = None
-            #can = self.can_bus_factory.create_online()
+            #can = None
+            can = self.can_bus_factory.create_online()
             self.camera_factory.add_camera_online("oak0")
             print("add camera online")
             await self.camera_factory.start_all()
@@ -40,7 +40,7 @@ class SetupConfig:
 
     def check_robot_status(self):
         #check robot status
-        self.robot_online = False
+        self.robot_online = True
         return self.robot_online
 
 

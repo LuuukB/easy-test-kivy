@@ -70,12 +70,13 @@ class TemplateApp(App):
         #await self.can_handler.run()
         # Placeholder task
         #self.async_tasks.append(asyncio.ensure_future(self.template_function()))
-        self.async_tasks.append(asyncio.create_task(self.camera_task()))
-        self.async_tasks.append(asyncio.create_task(self.camera_task2()))
-        self.async_tasks.append(asyncio.create_task(self.camera_task3()))
-        self.async_tasks.append(asyncio.create_task(self.camera_task4()))
-        self.async_tasks.append(asyncio.create_task(self.camera_task5()))
+        #self.async_tasks.append(asyncio.create_task(self.camera_task()))
+        #self.async_tasks.append(asyncio.create_task(self.camera_task2()))
+        #self.async_tasks.append(asyncio.create_task(self.camera_task3()))
+        #self.async_tasks.append(asyncio.create_task(self.camera_task4()))
+        #self.async_tasks.append(asyncio.create_task(self.camera_task5()))
         #self.async_tasks.append(asyncio.create_task(self.drive_task()))
+        self.async_tasks.clear(asyncio.create_task(self.can_to_microcontroller()))
         #self.async_tasks.append(asyncio.create_task(self.canbus_task()))
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
 
@@ -214,6 +215,28 @@ class TemplateApp(App):
             self.can_handler.send_packet(packet = msg, cob_id = 0x301)
             i += 1
             await asyncio.sleep(2)
+
+    async def can_to_microcontroller(self):
+        while self.root is None:
+            await asyncio.sleep(0.01)
+
+        i = 200
+
+        ts = Timestamp()
+
+        while True:
+            ts.GetCurrentTime()
+            msg = SetupPdo(command=1, amount=i)
+            raw_msg = RawCanbusMessage(
+                id=0x301,                 # CAN-ID (bijv. 0x123)
+                remote_transmission =False,        # Of het een extended 29-bit identifier is
+                error=false,                    # Data Length Code: aantal bytes in data
+                data=msg,
+                stamp=ts)              # Timestamp (protobuf)
+
+            await self.can.send_to_microcontroller(raw_msg)
+            print("sending cann")
+            await asyncio.sleep(1)
 
     async def template_function(self) -> None:
         setupconfig = SetupConfig()

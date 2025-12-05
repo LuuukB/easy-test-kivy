@@ -26,7 +26,7 @@ class CameraHandler(ICameraHandler):
 
         config = proto_from_json_file(self.service_config_path,EventServiceConfigList())
         for cfg in config.configs:
-            if cfg.name == self.config_name:
+            if cfg.name == "camera":
                 self.client = EventClient(cfg)
                 print("client started")
                 self.running = True
@@ -37,7 +37,7 @@ class CameraHandler(ICameraHandler):
         rate = self.client.config.subscriptions[0].every_n
         async for event, payload in self.client.subscribe(
                 SubscribeRequest(
-                    uri={"path": f"{self.client.config.name}/{self.stream_name}"},
+                    uri={"path": f"{self.config_name}/{self.stream_name}"},
                     every_n=rate
                 ),
                 decode=False):
