@@ -229,7 +229,7 @@ class TemplateApp(App):
                 id=0x301,
                 remote_transmission =False,        # Of het een extended 29-bit identifier is
                 error=False,                    # Data Length Code: aantal bytes in data
-                data=msg,
+                data=msg.to_can_data(),
                 stamp=ts)              # Timestamp (protobuf)
 
             await self.can.send_to_microcontroller(raw_msg)
