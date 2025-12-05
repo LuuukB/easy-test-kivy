@@ -76,7 +76,7 @@ class TemplateApp(App):
         #self.async_tasks.append(asyncio.create_task(self.camera_task4()))
         #self.async_tasks.append(asyncio.create_task(self.camera_task5()))
         #self.async_tasks.append(asyncio.create_task(self.drive_task()))
-        self.async_tasks.clear(asyncio.create_task(self.can_to_microcontroller()))
+        self.async_tasks.append(asyncio.create_task(self.can_to_microcontroller()))
         #self.async_tasks.append(asyncio.create_task(self.canbus_task()))
         return await asyncio.gather(run_wrapper(), *self.async_tasks)
 
