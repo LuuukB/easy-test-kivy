@@ -232,7 +232,7 @@ class TemplateApp(App):
                 data=msg.to_can_data(),
                 stamp=ts)              # Timestamp (protobuf)
 
-            #await self.can.send_to_microcontroller(raw_msg)
+            await self.can.send_to_microcontroller(raw_msg)
             print("sending cann")
             await asyncio.sleep(1)
 
