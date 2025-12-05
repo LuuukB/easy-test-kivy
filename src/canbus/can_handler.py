@@ -56,7 +56,7 @@ class CanHandler(ICanHandler):
 
         print("send message")
         try:
-            result = await self.client.request_reply("/raw_message", message)
+            result = await self.client.request_reply("/can_message", message)
             print(result)
             print("yeey")
         except Exception as e:

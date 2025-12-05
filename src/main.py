@@ -222,13 +222,11 @@ class TemplateApp(App):
 
         i = 200
 
-        ts = Timestamp()
-
         while True:
-            ts.GetCurrentTime()
+            ts = time.monotonic()
             msg = SetupPdo(command=1, amount=i)
             raw_msg = RawCanbusMessage(
-                id=0x301,                 # CAN-ID (bijv. 0x123)
+                id=0x301,
                 remote_transmission =False,        # Of het een extended 29-bit identifier is
                 error=false,                    # Data Length Code: aantal bytes in data
                 data=msg,
